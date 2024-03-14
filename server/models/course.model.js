@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 // Define schema for Course
 const courseSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: { type: String, required: true, index: true },
   description: { type: String },
   instructor: {
     type: mongoose.Schema.Types.ObjectId,
@@ -11,9 +11,6 @@ const courseSchema = new mongoose.Schema({
   },
   lectures: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lecture" }],
 });
-
-// Define index
-courseSchema.index({ title: 1 });
 
 // created course model acording to above schema;
 const Course = mongoose.model("Course", courseSchema);
