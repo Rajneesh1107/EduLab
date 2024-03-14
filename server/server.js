@@ -6,6 +6,7 @@ const fs = require("fs");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
+const connection = require("./lib/db/mongodb");
 
 // Create an instance of Express application
 const app = express();
@@ -17,13 +18,19 @@ app.use(cors()); // Enable CORS
 app.use(helmet()); // Secure HTTP headers
 app.use(morgan("dev")); // Logging HTTP requests
 
-app.get("/", (req, res) => {
-  res.send("This is home page!");
+// Dynamically load all routes
+fs.readdirSync(`${__dirname}/routes/api`).map((file) => {
+  require(`./routes/api/${file}`)(app);
 });
 
+// const PORT = process.env.PORT || 8000; //if PORT is present in .env run at that else at default port 8000;
+const PORT = 3000;
+
 // Start the server
-// const PORT = process.env.PORT || 8000 //if PORT is presend run at that else at default port
-const PORT = 3000; // Default to port 3000 if PORT is not specified in .env
 app.listen(PORT, async () => {
+  // Establish connection to MongoDB
+  await connection();
+
+  // Log server start-up message
   console.log(`server is running port  at ${PORT}`);
 });

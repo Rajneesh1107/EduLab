@@ -6,11 +6,17 @@ const courseSchema = new mongoose.Schema({
   description: { type: String },
   instructor: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Faculty",
+    ref: "Instructor",
     required: true,
   },
   lectures: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lecture" }],
 });
+
+// Define index
+courseSchema.index({ title: 1 });
+
+// created course model acording to above schema;
 const Course = mongoose.model("Course", courseSchema);
 
-module.exports = { Course };
+//export Course model
+module.exports = Course;
