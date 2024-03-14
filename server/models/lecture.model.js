@@ -10,10 +10,21 @@ const lectureSchema = new mongoose.Schema({
     ref: "Course",
     required: true,
   },
+  instructor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Instructor", // Reference to the Instructor model
+    required: true,
+  },
   videoUrl: { type: String },
   attachments: [{ type: String }],
   date: { type: Date, default: Date.now },
 });
+
+// Define index
+courseSchema.index({ title: 1 });
+
+// Create model based on the schemas
 const Lecture = mongoose.model("Lecture", lectureSchema);
 
-module.exports = { Lecture };
+//export Lecture model
+module.exports = Lecture;
