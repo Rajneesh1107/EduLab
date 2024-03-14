@@ -49,22 +49,47 @@ exports.validatePassword = (password) => {
   return true;
 };
 
-// generate token if user has successfully logged in;
-const secretKey = process.env.SECRETKEY;
-exports.generateToken = (payload, secret = secretKey) => {
+//generating accessToken
+exports.generateAccessToken = (payload, secret) => {
   // Options for the token
   const options = {
-    expiresIn: "1d", // Token will expire in 2 hours
+    expiresIn: "1d", // Token will expire in 1day
   };
 
-  // Generate the token
+  // Generate the accessToken
   const token = jwt.sign(payload, secret, options);
 
   return token;
 };
 
 //verify access token
-exports.verifyToken = (token, secretKey) => {
+exports.verifyAccessToken = (token, secretKey) => {
+  try {
+    let decoded = jwt.verify(token, secretKey);
+    return decoded;
+  } catch (error) {
+    // console.log(error);
+    return false;
+  }
+};
+
+//secreteRefreshToken Key
+const secretRefreshKey = process.env.SECRET_REFRESH_KEY;
+
+exports.generateRereshToken = (payload, secret) => {
+  // Options for the token
+  const options = {
+    expiresIn: "7d", // Token will expire in 2 hours
+  };
+
+  // Generate the refreshToken
+  const token = jwt.sign(payload, secret, options);
+
+  return token;
+};
+
+//verify refresh token
+exports.verifyRefreshToken = (token, secretKey) => {
   try {
     let decoded = jwt.verify(token, secretKey);
     return decoded;
@@ -72,3 +97,7 @@ exports.verifyToken = (token, secretKey) => {
     return error;
   }
 };
+
+`
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYyOWVlNDgyZGU5OGI4M2M3ODc5YTkiLCJlbWFpbCI6InNhdXJhYmhAZ21haWwuY29tIiwicm9sZSI6Imluc3RydWN0b3IiLCJpYXQiOjE3MTA0MDgyODEsImV4cCI6MTcxMDQ5NDY4MX0.YheoMECUG70abmZXVILwvmz2p7Y4LQ_19EUCbHOPbSs
+`;
