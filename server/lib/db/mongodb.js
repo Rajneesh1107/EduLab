@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const mongoUri = process.env.MONGO_URI;
 const connection = async () => {
   try {
+    // if mongoUri is not correct throw error
     if (!mongoUri) {
       throw new Error("failed to connect with mongoDB");
     }

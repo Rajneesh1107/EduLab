@@ -1,5 +1,5 @@
 // Import required packages
-require("dotenv").config();
+require("dotenv").config({ silent: true });
 
 const express = require("express");
 const fs = require("fs");
@@ -23,14 +23,12 @@ fs.readdirSync(`${__dirname}/routes/api`).map((file) => {
   require(`./routes/api/${file}`)(app);
 });
 
-// const PORT = process.env.PORT || 8000; //if PORT is present in .env run at that else at default port 8000;
-const PORT = 3000;
+const PORT = process.env.PORT || 8000; //if PORT is present in .env run at that else at default port 8000;
 
 // Start the server
 app.listen(PORT, async () => {
   // Establish connection to MongoDB
   await connection();
-
   // Log server start-up message
   console.log(`server is running port  at ${PORT}`);
 });
