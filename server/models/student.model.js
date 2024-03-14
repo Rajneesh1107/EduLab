@@ -12,6 +12,7 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: [true, "please enter your email"],
       unique: true,
+      index: true, //define index
     },
     password: { type: String, required: [true, "please enter your password"] },
     avatar: {
@@ -22,6 +23,11 @@ const studentSchema = new mongoose.Schema(
     coursesEnrolled: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }], // Assuming students can enroll in multiple courses
     dateOfBirth: { type: Date, default: null },
     phoneNumber: { type: String, default: "" },
+    role: {
+      type: String,
+      enum: ["student", "instructor"],
+      default: "student",
+    },
     address: {
       street: { type: String },
       city: { type: String },

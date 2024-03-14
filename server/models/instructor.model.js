@@ -8,9 +8,14 @@ const InstructorSchema = new mongoose.Schema({
     type: String,
     required: [true, "please enter your email"],
     unique: true,
+    index: true, //define the index
   },
   password: { type: String, required: [true, "please enter your password"] },
-  isAdmin: { type: Boolean, default: false }, // for creating role based access controll
+  role: {
+    type: String,
+    enum: ["student", "instructor"],
+    default: "student",
+  },
   coursesTaught: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }], // Assuming instructors members can teach multiple courses
 });
 
