@@ -8,6 +8,11 @@ const studentSchema = new mongoose.Schema(
       required: [true, "please enter your first name"],
     },
     lastName: { type: String, required: [true, "please enter your last name"] },
+    gender: {
+      type: String,
+      required: true,
+      enum: ["male", "female", "other"],
+    },
     email: {
       type: String,
       required: [true, "please enter your email"],

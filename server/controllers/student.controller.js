@@ -9,6 +9,10 @@ const {
   generateRereshToken,
   comparePassword,
 } = require("../lib/helper/common");
+const redis_client = require("../lib/db/redisdb");
+const { sendOtp } = require("../lib/helper/nodemailer");
+const cloudinary = require("../lib/helper/cloudinaryConfig");
+const upload = require("../middleware/multer.middleware");
 
 //StudentsecretKey for generating access token
 const secretAccessKey = process.env.SECRET_ACCESS_KEY_STUDENTS;
@@ -47,7 +51,7 @@ exports.getAllStudents = async (req, res) => {
 
 //register a new student
 exports.registerStudent = async (req, res) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
 
   try {
     let isExistStudent = await Student.findOne({ email });
@@ -59,6 +63,17 @@ exports.registerStudent = async (req, res) => {
         error: `Student with the email ${email} already registered.`,
       });
     }
+    // upload avatar to cloudinary
+
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      req.body.avatar = result.secure_url;
+    }
+    // generate 6 digit otp, save the otp to redis  and send to student email.
+
+    // for the time being isSendOtp is not uses yet...
+    // const isSendOtp = await sendOtp(email, req.body.firstName);
+
     // password validator
     if (!validatePassword(password)) {
       res.status(http.BAD_REQUEST).send({

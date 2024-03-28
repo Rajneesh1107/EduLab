@@ -25,7 +25,7 @@ exports.createCourse = async (req, res) => {
     if (!title) {
       res
         .status(http.BAD_REQUEST)
-        .send({ msg: "error", error: "Title is required" });
+        .send({ msg: "error", error: "title is required" });
       return;
     }
 

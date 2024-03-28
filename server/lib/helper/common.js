@@ -97,7 +97,8 @@ exports.verifyRefreshToken = (token, secretKey) => {
     return error;
   }
 };
-
-`
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWYyOWVlNDgyZGU5OGI4M2M3ODc5YTkiLCJlbWFpbCI6InNhdXJhYmhAZ21haWwuY29tIiwicm9sZSI6Imluc3RydWN0b3IiLCJpYXQiOjE3MTA0MDgyODEsImV4cCI6MTcxMDQ5NDY4MX0.YheoMECUG70abmZXVILwvmz2p7Y4LQ_19EUCbHOPbSs
-`;
+// generating a six digit random otp
+exports.generateOtp = () => {
+  let otp = Math.floor(100000 + Math.random() * 900000);
+  return otp;
+};
